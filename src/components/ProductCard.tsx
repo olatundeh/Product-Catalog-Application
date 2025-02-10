@@ -61,6 +61,9 @@ function ProductCard({ product }: { product: Product }) {
                 <Link href={`/products/${product.id}`}>
                     <Button>View</Button>
                 </Link>
+                <Link href={`/products/edit/${product.id}`}>
+                    <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</Button>
+                </Link>
                 <Button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     Delete
                 </Button>
