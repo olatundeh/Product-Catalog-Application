@@ -21,19 +21,10 @@ interface ProductFormData {
 
 function ProductForm({ product }: { product?: any }) {
   const router = useRouter();
-  const { mutate } = useSWR('/api/products'); // for optimistic updates
+  const { mutate } = useSWR('/api/products');
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const [formData, setFormData] = useState<ProductFormData>(product ? {
-    title: product.title,
-    description: product.description,
-    price: product.price,
-    thumbnail: product.thumbnail,
-    discountPercentage: product.discountPercentage || 0,
-    rating: product.rating,
-    stock: product.stock,
-    sku: product.sku,
-  } : {
+  const initialFormData: ProductFormData = {
     title: '',
     description: '',
     price: 0,
@@ -42,7 +33,13 @@ function ProductForm({ product }: { product?: any }) {
     rating: 0,
     stock: 0,
     sku: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<ProductFormData>(product ? {
+    ...initialFormData,
+    ...product,
+    discountPercentage: product?.discountPercentage || 0,
+  } : initialFormData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,13 +48,20 @@ function ProductForm({ product }: { product?: any }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const updatedProduct = await updateProduct(product.id, formData); // Ensure product.id exists
-      setAlert({ type: 'success', message: 'Product updated successfully!' });
+      let result;
+      if (product) {
+        result = await updateProduct(product.id, formData);
+      } else {
+        result = await createProduct(formData);
+      }
+
+      setAlert({ type: 'success', message: `Product ${product ? 'updated' : 'created'} successfully!` });
       setTimeout(() => setAlert(null), 3000);
       router.push('/');
+      mutate('/api/products');
     } catch (error) {
-      console.error("Error updating product:", error);
-      setAlert({ type: 'error', message: 'Failed to update product.' });
+      console.error(`Error ${product ? 'updating' : 'creating'} product:`, error);
+      setAlert({ type: 'error', message: `Failed to ${product ? 'update' : 'create'} product.` });
       setTimeout(() => setAlert(null), 3000);
     }
   };
