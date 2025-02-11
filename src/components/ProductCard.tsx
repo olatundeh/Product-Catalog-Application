@@ -25,22 +25,19 @@ function ProductCard({ product }: { product: Product }) {
     const handleDelete = async () => {
         try {
             await deleteProduct(product.id)
-            mutate(`${API_BASE_URL}/products`, {
-            
-              products: (cachedData: any) => { 
-                  if (cachedData && cachedData.products) {
-                    return {
-                      ...cachedData,
-                      products: cachedData.products.filter((p: Product) => p.id !== product.id),
-                    };
-                  } else if (cachedData) {
-                      return cachedData.filter((p: Product) => p.id !== product.id);
-                  } else {
-                    return cachedData;
-                  }
-
+          mutate((cachedData: any) => { 
+              if (cachedData && cachedData.products) {
+                return {
+                  ...cachedData,
+                  products: cachedData.products.filter((p: Product) => p.id !== product.id),
+                };
+              } else if (cachedData) {
+                  return cachedData.filter((p: Product) => p.id !== product.id);
+              } else {
+                return cachedData;
               }
           }, false);
+          alert(`${product.title} deleted successfully!`);
         } catch (error) {
             console.error("Error deleting product:", error)
         }
