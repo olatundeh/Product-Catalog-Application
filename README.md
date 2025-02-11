@@ -73,7 +73,7 @@ src/
     npm install  # or yarn install
 
 3. **Set up environment variables:**
-    Create a .env.local file in the root directory and add the API base URL:
+    Create a .env file in the root directory and add the API base URL:
 
     NEXT_PUBLIC_API_BASE_URL=[https://your-api-url.com](https://dummyjson.com)
 
