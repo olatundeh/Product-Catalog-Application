@@ -59,3 +59,42 @@ src/
 ├── .env.local          # Environment variables
 ├── package.json
 └── README.md
+
+## Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository_url>
+
+2. **Install dependencies:**
+
+    Bash
+
+    npm install  # or yarn install
+
+3. **Set up environment variables:**
+    Create a .env.local file in the root directory and add the API base URL:
+
+    NEXT_PUBLIC_API_BASE_URL=[https://your-api-url.com](https://your-api-url.com)
+
+4. **Run the development server:**
+
+    Bash
+
+    npm run dev  # or yarn dev
+
+5. **Open the application in your browser:**
+
+    http://localhost:3000
+
+
+## Design Decisions
+
+State Management
+This application uses React's Context API for state management.  While more robust solutions like Zustand or Redux exist, Context API was chosen for this project due to its simplicity and suitability for the application's current complexity.
+
+Rationale:
+
+Simplicity: Context API is built into React and doesn't require any external libraries, making it easy to set up and use.
+Centralized State: It allows for a centralized way to manage application state, avoiding prop drilling and making it accessible to any component within the application.
+Appropriate Complexity: The application's state management needs are currently relatively straightforward. The primary state revolves around the product list, pagination, and loading/error states. Context API handles this complexity effectively without adding unnecessary overhead.
