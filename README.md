@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js CRUD Application with DummyJSON Integration
 
-## Getting Started
+This project demonstrates a basic CRUD (Create, Read, Update, Delete) application built with Next.js 13, integrating with the dummyJSON API for product data.  It utilizes the Next.js App Router, Server Components, and SWR for state management and data fetching.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Application Structure](#application-structure)
+- [Setup Instructions](#setup-instructions)
+- [Design Decisions](#design-decisions)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Product Listing:** Displays a paginated list of products fetched from the dummyJSON API.
+- **Product Details:** Displays detailed information for a specific product.
+- **Product Creation:** Allows users to create new products.
+- **Product Update:** Allows users to update existing products.
+- **Product Deletion:** Allows users to delete products.
+- **Optimistic Updates:** The UI updates immediately when a product is created, updated, or deleted, providing a better user experience. SWR handles any potential errors and reverts the UI if the API request fails.
+- **Error Handling:** Basic error handling is included, but should be expanded upon in a production application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technologies Used
 
-## Learn More
+- **React:** JavaScript library for building user interfaces.
+- **Next.js:** React framework for server-side rendering and static site generation.
+- **SWR:** React Hook for data fetching.
+- **Context API:** React's built-in solution for managing application state.
+- **Shadcn UI:** Component library for styling.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Application Structure
+src/
+├── app/
+│   ├── layout.tsx                // Root layout
+│   ├── page.tsx                  // Main product list page
+│   ├── products/
+│   │   ├── [id]/
+│   │   │   └── page.tsx         // Dynamic route for product details
+│   │   ├── create/
+│   │   │   └── page.tsx         // Page for creating a new product
+│   │   └── edit/
+│   │       └── page.tsx         // Page for edit an existing product
+├── components/          # Reusable UI components
+│   ├── Pagination.tsx
+│   ├── ProductCard.tsx
+│   ├── ProductDetails.tsx
+│   ├── ProductForm.tsx
+│   ├── Shared/
+│   │   └── LoadingSpinner.tsx
+│   └── ui/
+│       └── button.tsx (Shadcn components)
+│       └── card.tsx (Shadcn components)
+│       └── input.tsx (Shadcn components)
+│       └── label.tsx (Shadcn components)
+├── lib/                 # Utility functions and API interaction
+│   └── api.js
+├── public/              # Static assets
+├── styles/             # Global styles
+├── .env.local          # Environment variables
+├── package.json
+└── README.md
